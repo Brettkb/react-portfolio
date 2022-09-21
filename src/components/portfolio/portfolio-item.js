@@ -30,6 +30,7 @@ render() {
 
     
     return(
+        <Link to={`/portfolio/${id}`}>
         <div className="portfolio-item-wrapper"
         onMouseEnter={() => this.handleMouseEnter()}
         onMouseLeave={() => this.handleMouseLeave()}
@@ -49,6 +50,7 @@ render() {
             <div className="subtitle">{description}</div>
         </div>
         </div>
+        </Link>
     );
     }
 }

@@ -5,26 +5,25 @@ import {
   Route
 } from 'react-router-dom';
 import axios from 'axios';
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faSignOutAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
-
 import PortfolioContainer from './portfolio/portfolio-container';
 import NavigationContainer from './navigation/navigation-container';
 import Home from "./pages/home";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 import Blog from "./pages/blog";
+import BlogDetail from "./pages/blog-detail";
 import PortfolioManager from "./pages/portfolio-manager";
 import PortfolioDetail from "./portfolio/portfolio-detail";
 import Auth from "./pages/auth"
 import NoMatch from "./pages/no-match";
-
-library.add(faTrash, faSignOutAlt, faEdit);
+import Icons from "../helpers/icons";
 
 export default class App extends Component {
  constructor(props) {
   super(props);
+
+  Icons();
 
   this.state = {
     loggedInStatus: "NOT_LOGGED_IN"
@@ -116,7 +115,19 @@ export default class App extends Component {
 
           <Route path="/about-me" component={About} />
           <Route path="/contact" component={Contact} />
-          <Route path="/blog" component={Blog} />
+          <Route path="/blog" 
+          render={props => (  //explicit vs implicit  returns, if use {} must return, but if it all on one line you don't or () u don't
+          <Blog {...props} loggedInStatus={this.state.loggedInStatus} />
+
+          )}
+          />
+          <Route 
+          path="/b/:slug"
+          render={props => (
+            <BlogDetail {...props} loggedInStatus={this.state.loggedInStatus} />
+          )}
+          />
+
           {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedPages()) : null}
           <Route exact path="/portfolio/:slug" component= {PortfolioDetail} />
           <Route component={NoMatch} />
